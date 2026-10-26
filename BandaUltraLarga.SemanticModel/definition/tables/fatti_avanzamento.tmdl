@@ -1,0 +1,112 @@
+table fatti_avanzamento
+	lineageTag: 6f0e163a-455f-4abf-9d8d-8bbe050335fa
+
+	measure Completati =
+			VAR ultima = CALCULATE ( MAX ( fatti_avanzamento[data] ) )
+			RETURN CALCULATE ( SUM ( fatti_avanzamento[approvati_o_chiusi] ), dim_data[data] = ultima )
+		formatString: #,0
+		lineageTag: 0b84288e-5821-4bd2-9cc8-95d777d3e425
+
+	measure 'Consegnati o aperti' =
+			VAR ultima = CALCULATE ( MAX ( fatti_avanzamento[data] ) )
+			RETURN CALCULATE ( SUM ( fatti_avanzamento[consegnati_o_aperti] ), dim_data[data] = ultima )
+		formatString: #,0
+		lineageTag: afa66f42-de01-45d3-919b-df972094a12e
+
+	measure '% completamento' = DIVIDE ( [Completati], [Cantieri programmati] )
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: cd3520b8-0381-419a-b2df-17d0f640543b
+
+	measure 'Cantieri chiusi' = CALCULATE ( [Completati], dim_fase[fase_id] = 3 )
+		formatString: #,0
+		lineageTag: b8952cfa-d94c-4607-95d9-15ede3e64b71
+
+	measure '% cantieri chiusi' = DIVIDE ( [Cantieri chiusi], [Cantieri programmati] )
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: cf6e07a4-61a4-4bae-b5ae-f4284b48a15f
+
+	measure 'Cantieri mancanti' = [Cantieri programmati] - [Cantieri chiusi]
+		formatString: #,0
+		lineageTag: b7687da0-4461-4d32-bd4e-81f65b3ef273
+
+	measure 'Cantieri chiusi un anno prima' =
+			VAR ultima = CALCULATE ( MAX ( fatti_avanzamento[data] ) )
+			RETURN
+			    CALCULATE (
+			        SUM ( fatti_avanzamento[approvati_o_chiusi] ),
+			        dim_data[data] = EDATE ( ultima, -12 ),
+			        dim_fase[fase_id] = 3
+			    )
+		formatString: #,0
+		lineageTag: 9e68db37-1068-4787-87fa-d36b5f5a7137
+
+	measure 'Cantieri chiusi in un anno' = [Cantieri chiusi] - [Cantieri chiusi un anno prima]
+		formatString: #,0
+		lineageTag: 495c4298-be97-48a0-a0a6-10924acfd6c5
+
+	measure 'Posizione regione' =
+			IF (
+			    HASONEVALUE ( dim_regione[regione] ),
+			    RANKX ( ALL ( dim_regione[regione] ), [% cantieri chiusi], , DESC )
+			)
+		formatString: 0
+		lineageTag: 91a96a7c-6d1c-493c-9319-3f8cb86ca5c6
+
+	column codice_istat
+		dataType: string
+		lineageTag: 5216e218-0e1b-4fe3-b402-92bfd11c2ef7
+		summarizeBy: none
+		sourceColumn: codice_istat
+
+		annotation SummarizationSetBy = Automatic
+
+	column data
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 35c42e11-8c5f-4783-a7ea-d5a67cf9a450
+		summarizeBy: none
+		sourceColumn: data
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column fase_id
+		dataType: int64
+		formatString: 0
+		lineageTag: dc8db1f3-338f-463d-aa2f-7c59949001f2
+		summarizeBy: none
+		sourceColumn: fase_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column consegnati_o_aperti
+		dataType: int64
+		formatString: #,0
+		lineageTag: 76da7068-ebb2-408d-adfd-d940bc375d82
+		summarizeBy: sum
+		sourceColumn: consegnati_o_aperti
+
+		annotation SummarizationSetBy = Automatic
+
+	column approvati_o_chiusi
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1efc5ee2-af13-4600-9790-2c6d0cdf7a02
+		summarizeBy: sum
+		sourceColumn: approvati_o_chiusi
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fatti_avanzamento = m
+		mode: import
+		source =
+				let
+				    Origine = Csv.Document(File.Contents(CartellaDati & "fatti_avanzamento.csv"), [Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Intestazioni = Table.PromoteHeaders(Origine, [PromoteAllScalars=true]),
+				    Tipi = Table.TransformColumnTypes(Intestazioni, {{"codice_istat", type text}, {"data", type date}, {"fase_id", Int64.Type}, {"consegnati_o_aperti", Int64.Type}, {"approvati_o_chiusi", Int64.Type}}, "en-US")
+				in
+				    Tipi
+
+	annotation PBI_ResultType = Table
+

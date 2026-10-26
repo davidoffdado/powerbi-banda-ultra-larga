@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "BandaUltraLarga"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "25455ab2-e78c-402e-be8e-81615c94aef5"
+  }
+}

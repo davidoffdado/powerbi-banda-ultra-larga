@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "BandaUltraLarga"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "7e47e479-602c-45ef-b62d-e8bc45bacdeb"
+  }
+}

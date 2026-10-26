@@ -1,0 +1,20 @@
+model Model
+	culture: it-IT
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: it-IT
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["CartellaDati", "dim_regione", "dim_fase", "dim_data", "fatti_avanzamento", "fatti_economico"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_regione
+ref table dim_fase
+ref table dim_data
+ref table fatti_avanzamento
+ref table fatti_economico
+

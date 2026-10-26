@@ -1,0 +1,41 @@
+{
+  "name": "bianco_nero",
+  "dataColors": [
+    "#111111",
+    "#8D8A83",
+    "#C9C7C1",
+    "#4A4844",
+    "#B0ACA4",
+    "#6A6862",
+    "#E4E4E4",
+    "#2E2D2A"
+  ],
+  "foreground": "#111111",
+  "foregroundNeutralSecondary": "#6A6862",
+  "foregroundNeutralTertiary": "#B0ACA4",
+  "background": "#FFFFFF",
+  "backgroundLight": "#F4F4F1",
+  "backgroundNeutral": "#E4E4E4",
+  "tableAccent": "#111111",
+  "good": "#111111",
+  "neutral": "#8D8A83",
+  "bad": "#C9C7C1",
+  "maximum": "#111111",
+  "center": "#8D8A83",
+  "minimum": "#F4F4F1",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#111111",
+      "fontSize": 12
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "color": "#6A6862"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "color": "#111111"
+    }
+  }
+}

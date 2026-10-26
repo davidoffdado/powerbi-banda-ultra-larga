@@ -1,0 +1,5 @@
+expression CartellaDati = "C:\Users\David\Desktop\powerbi-banda-ultra-larga\dati\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: ef2148bd-e614-465d-b80e-f864eb454f42
+
+	annotation PBI_ResultType = Text
+

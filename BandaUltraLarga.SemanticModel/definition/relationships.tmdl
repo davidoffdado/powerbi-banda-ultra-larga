@@ -1,0 +1,20 @@
+relationship 27c61c21-0ec0-45c7-addb-94942df38bbe
+	fromColumn: fatti_avanzamento.codice_istat
+	toColumn: dim_regione.codice_istat
+
+relationship 352b1cdb-eaf1-45d3-bb23-02ddc86f01c9
+	fromColumn: fatti_avanzamento.fase_id
+	toColumn: dim_fase.fase_id
+
+relationship 975ebf36-a0a9-43e0-824a-9f86f0154949
+	fromColumn: fatti_avanzamento.data
+	toColumn: dim_data.data
+
+relationship c8a93115-da31-46a8-9437-f109d96febdf
+	fromColumn: fatti_economico.codice_istat
+	toColumn: dim_regione.codice_istat
+
+relationship 41811bd2-6fa6-42ec-ae9a-885905cc3f2d
+	fromColumn: fatti_economico.data
+	toColumn: dim_data.data
+

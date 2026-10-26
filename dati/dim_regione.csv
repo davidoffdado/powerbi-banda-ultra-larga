@@ -1,0 +1,21 @@
+"codice_istat","regione","nuts2","macroarea","bando","programmati_apr2020","programmati_apr2023","programmati_dic2023"
+"01","Piemonte","ITC1","Nord-ovest","Bando 2",1458,2046,2145
+"02","Valle d'Aosta","ITC2","Nord-ovest","Bando 2",106,134,144
+"03","Lombardia","ITC4","Nord-ovest","Bando 1",1507,1889,1972
+"04","Trentino-Alto Adige","ITH2","Nord-est","Bando 2",316,433,428
+"05","Veneto","ITH3","Nord-est","Bando 1",779,875,895
+"06","Friuli-Venezia Giulia","ITH4","Nord-est","Bando 2",311,377,379
+"07","Liguria","ITC3","Nord-ovest","Bando 2",284,371,391
+"08","Emilia-Romagna","ITH5","Nord-est","Bando 1",471,494,499
+"09","Toscana","ITI1","Centro","Bando 1",369,456,451
+"10","Umbria","ITI2","Centro","Bando 2",163,169,177
+"11","Marche","ITI3","Centro","Bando 2",356,447,459
+"12","Lazio","ITI4","Centro","Bando 2",504,628,649
+"13","Abruzzo","ITF1","Sud","Bando 1",318,347,355
+"14","Molise","ITF2","Sud","Bando 1",237,231,248
+"15","Campania","ITF3","Sud","Bando 2",602,811,878
+"16","Puglia","ITF4","Sud","Bando 3",228,249,265
+"17","Basilicata","ITF5","Sud","Bando 2",166,225,241
+"18","Calabria","ITF6","Sud","Bando 3",263,250,285
+"19","Sicilia","ITG1","Isole","Bando 2",524,678,700
+"20","Sardegna","ITG2","Isole","Bando 3",200,138,146

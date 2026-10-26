@@ -1,0 +1,83 @@
+table fatti_economico
+	lineageTag: 017ad8c8-08eb-4abe-992c-591f5a31ce85
+
+	measure 'Valore cantieri avviati' =
+			VAR ultima = CALCULATE ( MAX ( fatti_economico[data] ) )
+			RETURN CALCULATE ( SUM ( fatti_economico[valore_cantieri_avviati] ), dim_data[data] = ultima )
+		formatString: #,0 €
+		lineageTag: b58098e7-d220-49ca-97d2-b443e2a82cde
+
+	measure 'Avanzamento lavori' =
+			VAR ultima = CALCULATE ( MAX ( fatti_economico[data] ) )
+			RETURN CALCULATE ( SUM ( fatti_economico[avanzamento_lavori] ), dim_data[data] = ultima )
+		formatString: #,0 €
+		lineageTag: 619f4314-feb3-4880-b995-72cb583c0798
+
+	measure 'Lavori contabilizzati' =
+			VAR ultima = CALCULATE ( MAX ( fatti_economico[data] ) )
+			RETURN CALCULATE ( SUM ( fatti_economico[lavori_contabilizzati] ), dim_data[data] = ultima )
+		formatString: #,0 €
+		lineageTag: 4e6eefda-915a-44b5-b25b-ab4da0d0d840
+
+	measure '% contabilizzato' = DIVIDE ( [Lavori contabilizzati], [Valore cantieri avviati] )
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 1ef0104c-52a7-4cb2-9cd2-1fc42053f847
+
+	column codice_istat
+		dataType: string
+		lineageTag: 9122947d-c7f0-422d-b0ba-74c8e2796807
+		summarizeBy: none
+		sourceColumn: codice_istat
+
+		annotation SummarizationSetBy = Automatic
+
+	column data
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: fe5987e8-3ade-40ed-b437-7f6c758529fc
+		summarizeBy: none
+		sourceColumn: data
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column valore_cantieri_avviati
+		dataType: int64
+		formatString: #,0
+		lineageTag: e4806750-83fc-4b3f-8292-bcc26b643e47
+		summarizeBy: sum
+		sourceColumn: valore_cantieri_avviati
+
+		annotation SummarizationSetBy = Automatic
+
+	column avanzamento_lavori
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0bb51969-1ac3-4b6b-ac95-20d3ce8468ba
+		summarizeBy: sum
+		sourceColumn: avanzamento_lavori
+
+		annotation SummarizationSetBy = Automatic
+
+	column lavori_contabilizzati
+		dataType: int64
+		formatString: #,0
+		lineageTag: b2ff50e9-f761-45cf-8771-e3148c909491
+		summarizeBy: sum
+		sourceColumn: lavori_contabilizzati
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fatti_economico = m
+		mode: import
+		source =
+				let
+				    Origine = Csv.Document(File.Contents(CartellaDati & "fatti_economico.csv"), [Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Intestazioni = Table.PromoteHeaders(Origine, [PromoteAllScalars=true]),
+				    Tipi = Table.TransformColumnTypes(Intestazioni, {{"codice_istat", type text}, {"data", type date}, {"valore_cantieri_avviati", Int64.Type}, {"avanzamento_lavori", Int64.Type}, {"lavori_contabilizzati", Int64.Type}}, "en-US")
+				in
+				    Tipi
+
+	annotation PBI_ResultType = Table
+

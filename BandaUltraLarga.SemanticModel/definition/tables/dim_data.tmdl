@@ -1,0 +1,78 @@
+table dim_data
+	lineageTag: 0441a999-46ac-4a22-ac80-1420755b4def
+
+	column data
+		dataType: dateTime
+		formatString: dd/mm/yyyy
+		lineageTag: 9ca8ae9a-9c73-4ed5-ad52-cb2eedbd3a7d
+		summarizeBy: none
+		sourceColumn: data
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column anno
+		dataType: int64
+		formatString: 0
+		lineageTag: 86512e71-04d5-4778-9e79-8563fce49c47
+		summarizeBy: none
+		sourceColumn: anno
+
+		annotation SummarizationSetBy = Automatic
+
+	column mese
+		dataType: int64
+		formatString: 0
+		lineageTag: 3fa84de0-ba7a-467e-a062-8256c31a4516
+		summarizeBy: none
+		sourceColumn: mese
+
+		annotation SummarizationSetBy = Automatic
+
+	column periodo
+		dataType: string
+		lineageTag: f6d77829-8ed1-4009-92cc-1022e65370b8
+		summarizeBy: none
+		sourceColumn: periodo
+		sortByColumn: ordine
+
+		annotation SummarizationSetBy = Automatic
+
+	column ordine
+		dataType: int64
+		formatString: 0
+		lineageTag: 61bf2f4d-f478-41ed-aa13-8f38934dac93
+		summarizeBy: none
+		sourceColumn: ordine
+
+		annotation SummarizationSetBy = Automatic
+
+	column rilevazione_fasi
+		dataType: boolean
+		lineageTag: 58cfdbfd-5a97-457d-8b51-1e242e2ca4ef
+		summarizeBy: none
+		sourceColumn: rilevazione_fasi
+
+		annotation SummarizationSetBy = Automatic
+
+	column fine_anno
+		dataType: boolean
+		lineageTag: 03c248e1-8ee4-40ec-a57b-5df9f84f69a5
+		summarizeBy: none
+		sourceColumn: fine_anno
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_data = m
+		mode: import
+		source =
+				let
+				    Origine = Csv.Document(File.Contents(CartellaDati & "dim_data.csv"), [Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Intestazioni = Table.PromoteHeaders(Origine, [PromoteAllScalars=true]),
+				    Tipi = Table.TransformColumnTypes(Intestazioni, {{"data", type date}, {"anno", Int64.Type}, {"mese", Int64.Type}, {"periodo", type text}, {"ordine", Int64.Type}, {"rilevazione_fasi", type logical}, {"fine_anno", type logical}}, "en-US")
+				in
+				    Tipi
+
+	annotation PBI_ResultType = Table
+

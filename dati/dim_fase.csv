@@ -1,0 +1,4 @@
+"fase_id","fase","consegnati_o_aperti_significa","approvati_o_chiusi_significa"
+1,"Progetto definitivo","progetti consegnati","progetti approvati"
+2,"Progetto esecutivo","progetti consegnati","progetti approvati"
+3,"Lavori","cantieri aperti","cantieri chiusi"
